@@ -73,7 +73,7 @@ const deleteAuthor = async (req, res) => {
     if (!deletedAuthor) {
       return res.status(404).json({ error: 'Autor no encontrado' });
     }
-    res.status(204).send(); // 204 No Content
+    res.status(204).send(); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al eliminar el autor' });

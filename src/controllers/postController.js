@@ -1,6 +1,6 @@
-const postService = require('../services/postService');
+import * as postService from '../services/postService.js';
 
-const getAllPosts = async (req, res,next) => {
+export const getAllPosts = async (req, res, next) => {
   try {
     const posts = await postService.getAllPosts();
     res.status(200).json(posts);
@@ -9,7 +9,7 @@ const getAllPosts = async (req, res,next) => {
   }
 };
 
-const getPostById = async (req, res, next) => {
+export const getPostById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const post = await postService.getPostById(id);
@@ -22,23 +22,21 @@ const getPostById = async (req, res, next) => {
   }
 };
 
-const getPostsByAuthorId = async (req, res, next) => {
+export const getPostsByAuthorId = async (req, res, next) => {
   const { authorId } = req.params;
   try {
     const posts = await postService.getPostsByAuthorId(authorId);
     res.status(200).json(posts);
   } catch (error) {
-    next(error);  
+    next(error);
   }
 };
 
-const createPost = async (req, res, next) => {
+export const createPost = async (req, res, next) => {
   const { author_id, title, content, published } = req.body;
-
   if (!author_id || !title || !content) {
     return res.status(400).json({ error: 'author_id, title y content son obligatorios' });
   }
-
   try {
     const newPost = await postService.createPost(author_id, title, content, published);
     res.status(201).json(newPost);
@@ -47,14 +45,12 @@ const createPost = async (req, res, next) => {
   }
 };
 
-const updatePost = async (req, res, next) => {
+export const updatePost = async (req, res, next) => {
   const { id } = req.params;
   const { title, content, published } = req.body;
-
   if (!title || !content) {
     return res.status(400).json({ error: 'title y content son obligatorios' });
   }
-
   try {
     const updatedPost = await postService.updatePost(id, title, content, published);
     if (!updatedPost) {
@@ -66,7 +62,7 @@ const updatePost = async (req, res, next) => {
   }
 };
 
-const deletePost = async (req, res, next) => {
+export const deletePost = async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedPost = await postService.deletePost(id);
@@ -77,13 +73,4 @@ const deletePost = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  getAllPosts,
-  getPostById,
-  getPostsByAuthorId,
-  createPost,
-  updatePost,
-  deletePost,
 };

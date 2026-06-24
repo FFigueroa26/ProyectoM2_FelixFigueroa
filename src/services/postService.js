@@ -1,6 +1,6 @@
-const pool = require('../db/pool');
+import pool from '../db/pool.js';
 
-const getAllPosts = async () => {
+export const getAllPosts = async () => {
   const result = await pool.query(`
     SELECT p.*, a.name as author_name, a.email as author_email
     FROM posts p
@@ -10,7 +10,7 @@ const getAllPosts = async () => {
   return result.rows;
 };
 
-const getPostById = async (id) => {
+export const getPostById = async (id) => {
   const result = await pool.query(`
     SELECT p.*, a.name as author_name, a.email as author_email
     FROM posts p
@@ -20,7 +20,7 @@ const getPostById = async (id) => {
   return result.rows[0];
 };
 
-const getPostsByAuthorId = async (authorId) => {
+export const getPostsByAuthorId = async (authorId) => {
   const result = await pool.query(`
     SELECT p.*, a.name as author_name, a.email as author_email
     FROM posts p
@@ -31,7 +31,7 @@ const getPostsByAuthorId = async (authorId) => {
   return result.rows;
 };
 
-const createPost = async (author_id, title, content, published) => {
+export const createPost = async (author_id, title, content, published) => {
   const result = await pool.query(
     'INSERT INTO posts (author_id, title, content, published) VALUES ($1, $2, $3, $4) RETURNING *',
     [author_id, title, content, published || false]
@@ -39,7 +39,7 @@ const createPost = async (author_id, title, content, published) => {
   return result.rows[0];
 };
 
-const updatePost = async (id, title, content, published) => {
+export const updatePost = async (id, title, content, published) => {
   const result = await pool.query(
     'UPDATE posts SET title = $1, content = $2, published = $3 WHERE id = $4 RETURNING *',
     [title, content, published, id]
@@ -47,16 +47,7 @@ const updatePost = async (id, title, content, published) => {
   return result.rows[0];
 };
 
-const deletePost = async (id) => {
+export const deletePost = async (id) => {
   const result = await pool.query('DELETE FROM posts WHERE id = $1 RETURNING *', [id]);
   return result.rows[0];
-};
-
-module.exports = {
-  getAllPosts,
-  getPostById,
-  getPostsByAuthorId,
-  createPost,
-  updatePost,
-  deletePost,
 };

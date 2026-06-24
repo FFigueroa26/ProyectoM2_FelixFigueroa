@@ -1,20 +1,21 @@
-const express = require('express');
-const authorRoutes = require('./routes/authorRoutes');
-const postRoutes = require('./routes/postRoutes');
-const errorHandler = require('./middlewares/errorHandler');
+import express from 'express';
+import authorRoutes from './routes/authorRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import errorHandler from './middlewares/errorHandler.js';
+import notFound from './middlewares/notFound.js';
 
-const app = express(); 
+const app = express();
 
-app.use(express.json()); 
+app.use(express.json());
 
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 app.use('/authors', authorRoutes);
 app.use('/posts', postRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 
-
-module.exports = app;
+export default app;

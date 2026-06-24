@@ -79,7 +79,7 @@ test('PUT /authors/1 → 400 si falta email', async () => {
 // ==================== DELETE ====================
 test('DELETE /authors/1 → 204 elimina', async () => {
   await request(app).delete('/authors/1').expect(204);
-  // Verificar que ya no existe
+  
   const res = await pool.query('SELECT * FROM authors WHERE id = 1');
   expect(res.rows.length).toBe(0);
 });

@@ -1,16 +1,15 @@
 const postService = require('../services/postService');
 
-const getAllPosts = async (req, res) => {
+const getAllPosts = async (req, res,next) => {
   try {
     const posts = await postService.getAllPosts();
     res.status(200).json(posts);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener los posts' });
+    next(error);
   }
 };
 
-const getPostById = async (req, res) => {
+const getPostById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const post = await postService.getPostById(id);
@@ -19,26 +18,23 @@ const getPostById = async (req, res) => {
     }
     res.status(200).json(post);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el post' });
+    next(error);
   }
 };
 
-const getPostsByAuthorId = async (req, res) => {
+const getPostsByAuthorId = async (req, res, next) => {
   const { authorId } = req.params;
   try {
     const posts = await postService.getPostsByAuthorId(authorId);
     res.status(200).json(posts);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener los posts del autor' });
+    next(error);  
   }
 };
 
-const createPost = async (req, res) => {
+const createPost = async (req, res, next) => {
   const { author_id, title, content, published } = req.body;
 
-  // Validaciones obligatorias
   if (!author_id || !title || !content) {
     return res.status(400).json({ error: 'author_id, title y content son obligatorios' });
   }
@@ -47,12 +43,11 @@ const createPost = async (req, res) => {
     const newPost = await postService.createPost(author_id, title, content, published);
     res.status(201).json(newPost);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al crear el post' });
+    next(error);
   }
 };
 
-const updatePost = async (req, res) => {
+const updatePost = async (req, res, next) => {
   const { id } = req.params;
   const { title, content, published } = req.body;
 
@@ -67,12 +62,11 @@ const updatePost = async (req, res) => {
     }
     res.status(200).json(updatedPost);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al actualizar el post' });
+    next(error);
   }
 };
 
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedPost = await postService.deletePost(id);
@@ -81,8 +75,7 @@ const deletePost = async (req, res) => {
     }
     res.status(204).send();
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al eliminar el post' });
+    next(error);
   }
 };
 

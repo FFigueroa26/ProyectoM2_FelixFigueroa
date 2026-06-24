@@ -1,16 +1,15 @@
 const authorService = require('../services/authorService');
 
-const getAllAuthors = async (req, res) => {
+const getAllAuthors = async (req, res, next) => {
   try {
     const authors = await authorService.getAllAuthors();
     res.status(200).json(authors);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener los autores' });
+    next(error);
   }
 };
 
-const getAuthorById = async (req, res) => {
+const getAuthorById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const author = await authorService.getAuthorById(id);
@@ -19,12 +18,11 @@ const getAuthorById = async (req, res) => {
     }
     res.status(200).json(author);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el autor' });
+    next(error);
   }
 };
 
-const createAuthor = async (req, res) => {
+const createAuthor = async (req, res, next) => {
   const { name, email, bio } = req.body;
 
   if (!name || !email) {
@@ -35,15 +33,11 @@ const createAuthor = async (req, res) => {
     const newAuthor = await authorService.createAuthor(name, email, bio);
     res.status(201).json(newAuthor);
   } catch (error) {
-    if (error.code === '23505') {
-      return res.status(400).json({ error: 'El email ya está registrado' });
+    next(error);
     }
-    console.error(error);
-    res.status(500).json({ error: 'Error al crear el autor' });
-  }
 };
 
-const updateAuthor = async (req, res) => {
+const updateAuthor = async (req, res, next) => {
   const { id } = req.params;
   const { name, email, bio } = req.body;
 
@@ -58,15 +52,11 @@ const updateAuthor = async (req, res) => {
     }
     res.status(200).json(updatedAuthor);
   } catch (error) {
-    if (error.code === '23505') {
-      return res.status(400).json({ error: 'El email ya está registrado' });
-    }
-    console.error(error);
-    res.status(500).json({ error: 'Error al actualizar el autor' });
+    next(error);
   }
 };
 
-const deleteAuthor = async (req, res) => {
+const deleteAuthor = async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedAuthor = await authorService.deleteAuthor(id);
@@ -75,8 +65,7 @@ const deleteAuthor = async (req, res) => {
     }
     res.status(204).send(); 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al eliminar el autor' });
+    next(error);
   }
 };
 

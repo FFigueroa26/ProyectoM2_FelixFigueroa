@@ -1,0 +1,273 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Miniblog",
+    "version": "1.0.0",
+    "description": "API para gestión de autores y posts"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor de desarrollo"
+    }
+  ],
+  "paths": {
+    "/authors": {
+      "get": {
+        "summary": "Obtener todos los autores",
+        "responses": {
+          "200": {
+            "description": "Lista de autores"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un autor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "bio": { "type": "string" }
+                },
+                "required": ["name", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Autor creado"
+          },
+          "400": {
+            "description": "Datos inválidos"
+          }
+        }
+      }
+    },
+    "/authors/{id}": {
+      "get": {
+        "summary": "Obtener un autor por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos del autor"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar un autor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "bio": { "type": "string" }
+                },
+                "required": ["name", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Autor actualizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un autor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Eliminado"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "summary": "Obtener todos los posts",
+        "responses": {
+          "200": {
+            "description": "Lista de posts"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "author_id": { "type": "integer" },
+                  "title": { "type": "string" },
+                  "content": { "type": "string" },
+                  "published": { "type": "boolean" }
+                },
+                "required": ["author_id", "title", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post creado"
+          },
+          "400": {
+            "description": "Datos inválidos"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "summary": "Obtener un post por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos del post"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar un post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "content": { "type": "string" },
+                  "published": { "type": "boolean" }
+                },
+                "required": ["title", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post actualizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Eliminado"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      }
+    },
+    "/posts/author/{authorId}": {
+      "get": {
+        "summary": "Obtener posts de un autor",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de posts del autor"
+          }
+        }
+      }
+    }
+  }
+}

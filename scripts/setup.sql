@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS comments CASCADE;
 DROP TABLE IF EXISTS posts CASCADE;
 DROP TABLE IF EXISTS authors CASCADE;
 
@@ -23,3 +24,15 @@ CREATE TABLE posts (
 
 CREATE INDEX idx_posts_author_id ON posts(author_id);
 CREATE INDEX idx_posts_published  ON posts(published);
+
+
+CREATE TABLE comments (
+  id         SERIAL PRIMARY KEY,
+  content    TEXT          NOT NULL,
+  author_id  INTEGER       NOT NULL REFERENCES authors(id) ON DELETE CASCADE,
+  post_id    INTEGER       NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ   DEFAULT NOW()
+);
+
+CREATE INDEX idx_comments_post_id   ON comments(post_id);
+CREATE INDEX idx_comments_author_id ON comments(author_id);

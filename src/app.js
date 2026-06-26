@@ -1,6 +1,7 @@
 import express from 'express';
 import authorRoutes from './routes/authorRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFound from './middlewares/notFound.js';
 import swaggerUi from 'swagger-ui-express';
@@ -21,6 +22,7 @@ app.get('/health', (req, res) => {
 
 app.use('/authors', authorRoutes);
 app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

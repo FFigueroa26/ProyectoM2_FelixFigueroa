@@ -1,12 +1,34 @@
-# ProyectoM2_FelixFigueroa
+# API MiniBlog
 
-API REST de un miniblog con autores y posts, construida con **Express.js** y **PostgreSQL**.
+API REST de un miniblog con autores, posts y comentarios, construida con **Express.js** y **PostgreSQL**.
 
 ## Descripción
 
-El proyecto expone endpoints CRUD para gestionar autores y sus publicaciones. Incluye validaciones, manejo de errores con códigos PostgreSQL, documentación interactiva via Swagger UI, y suite de pruebas con Jest + Supertest.
+El proyecto expone endpoints CRUD para gestionar autores, sus publicaciones y comentarios. Incluye validaciones, manejo de errores con códigos PostgreSQL, documentación interactiva via Swagger UI, y suite de pruebas con Jest + Supertest.
 
 **Stack técnico:** Node.js (ES Modules), Express 4, PostgreSQL, pg, Swagger UI Express, Jest, Supertest.
+
+## Estructura del proyecto
+
+```
+├── src/
+│   ├── app.js                    # Configuración de Express
+│   ├── server.js                 # Punto de entrada
+│   ├── controllers/              # Manejadores de peticiones
+│   ├── routes/                   # Definición de rutas REST
+│   ├── services/                 # Lógica de negocio y consultas SQL
+│   ├── db/
+│   │   └── pool.js               # Conexión a PostgreSQL
+│   └── middlewares/               # Error handler y 404
+├── tests/                        # Tests con Jest + Supertest
+├── scripts/
+│   ├── setup.sql                 # Creación de tablas
+│   └── seed.sql                  # Datos de ejemplo
+├── docs/
+│   └── openapi.json              # Documentación OpenAPI
+├── .env.example
+└── README.md
+```
 
 ---
 
@@ -53,6 +75,21 @@ npm start
 ```
 
 Servidor disponible en `http://localhost:3000`. Endpoint de salud: `GET /health`.
+
+### Endpoints disponibles
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/authors` | Listar autores |
+| POST | `/authors` | Crear autor |
+| GET/PUT/DELETE | `/authors/:id` | Obtener, actualizar o eliminar autor |
+| GET | `/posts` | Listar posts |
+| POST | `/posts` | Crear post |
+| GET/PUT/DELETE | `/posts/:id` | Obtener, actualizar o eliminar post |
+| GET | `/posts/author/:authorId` | Posts de un autor |
+| GET | `/comments/post/:postId` | Comentarios de un post |
+| POST | `/comments/post/:postId` | Crear comentario en un post |
+| GET | `/api-docs` | Documentación Swagger UI |
 
 ---
 
@@ -161,5 +198,6 @@ Durante el desarrollo de este proyecto se utilizaron herramientas de inteligenci
 **Prompt:** *"Crea un README en español para un proyecto de API REST con Express y PostgreSQL. Debe incluir: descripción, requisitos, pasos para ejecutar local, cómo correr tests, cómo ver la documentación OpenAPI en Swagger UI, y una guía de deploy en Railway con variables de entorno."*
 
 **Influencia:** El asistente estructuró el README con todas las secciones solicitadas, incluyendo ejemplos de comandos y tabla de variables de entorno.
+
 
 Las herramientas utilizadas incluyen asistentes de código basados en modelos de lenguaje (como Claude y GitHub Copilot) para acelerar tareas repetitivas, generar documentación y escribir tests, siempre bajo supervisión y revisión del desarrollador.
